@@ -1,0 +1,4 @@
+﻿1. Конфликт след генериране на класовете с авроген, защото вече има генериран клас в същия неймспейс -> нашето ДТО.
+
+public void WriteClassFile(string file, string fileName, string fileType, params string[] directory) - стринг с точки примерно 
+MyNameSpace.NestedFolder1.NestedFolder2 etc или всяко едно да е като отделен параметър примерно "MyNameSpace", "NestedFolder1", "NestedFolder2" ect

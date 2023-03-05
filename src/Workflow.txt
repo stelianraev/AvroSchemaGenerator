@@ -1,0 +1,4 @@
+﻿1. Avro schema compatable DTO from already existing class
+2. Schema from compatable existing class
+3. To be able to add properties or remove properties from class
+4. Create DTO with avro schema

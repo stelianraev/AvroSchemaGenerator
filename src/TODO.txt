@@ -1,0 +1,33 @@
+﻿1. Create Avro from class
+Flow: 
+Create class from another class => generate avro schema => attach schema to a class as Schema field and property - optionaly
+
+2. Create Avro from Json
+Flow:
+Json to object => object to class => class to schema => attach schema to a class as Schema field and property
+
+
+TO DO:
+1. Configuration about convert for enums, datetime, dateTimeOffset, Jtoken, object, dynamic, float, decimal
+ Possibly configuration to be possible to attached in methor for example as JsonSettings
+
+ -- Checking for datetime formatting
+
+2. Dicktionary with different keys from string
+
+3. Editing schema, DTO etc - like addint MSGTransferDate
+
+WORKING !!!
+Generate Avro Schema 
+1. CenerateAvroSchema
+2. WriteSchema
+
+
+Creating DTO from class => if dictionary is with key != object, create dictionary<string, value>() - Done
+						   if dictionary is with key == object, create new object with properties key and value - Done
+
+	! If Dictionary is with key string - in the new model is creating new property of type Dictionary<string, somevalue> 
+		if Dictionary is with key object - it is creating new Object with properties key and value in the new model
+		if dictionary is form type int, long, decimal, bool - there is new Property Dictionary<string, someValue> - it is possible to be stringed and data will be not changed
+
+		ckeck nullable for array, list, obj etc
