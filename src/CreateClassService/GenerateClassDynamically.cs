@@ -89,11 +89,6 @@
             {
                 classLayout.PropertyInfos.Add(prop);
 
-                if (prop.Name == "TennisStream")
-                {
-
-                }
-
                 if (prop.PropertyType == typeof(int))
                 {
                     dictionary[prop.Name] = "System.Int32";
@@ -201,6 +196,23 @@
                 else if (prop.PropertyType.IsGenericType && prop.PropertyType.GetGenericTypeDefinition() == typeof(Dictionary<,>)
                     || prop.PropertyType.IsGenericType && prop.PropertyType.GetGenericTypeDefinition() == typeof(IDictionary<,>))
                 {
+
+                    object value1 = null;
+                    object value2 = null;
+
+                    //TODO
+                    //if(prop.PropertyType.GetGenericArguments()[0].IsGenericType && prop.PropertyType.GetGenericArguments()[0].GetGenericTypeDefinition() == typeof(List<>))
+                    //{
+                    //    value1 = $"List<{prop.PropertyType.GetGenericArguments()[0].GenericTypeArguments[0].Name}>";
+                    //    //dictionary[prop.Name] = $"Dictionary<{$"List<{prop.PropertyType.GetGenericArguments()[0].GenericTypeArguments[0].Name}>"}, {GetClassPropertyType(prop.PropertyType.GetGenericArguments()[1], settings)}>";
+
+                    //    if(prop.PropertyType.GetGenericArguments()[1] == typeof(Dictionary<,>))
+                    //    {
+                    //        value2 = $"Dictionary<{}>";
+                    //    }
+                    //    ;
+                    //}
+
                     if (prop.PropertyType.GetGenericArguments()[0].IsClass && prop.PropertyType.GetGenericArguments()[0].Name != "String")
                     {
                         ClassLayout dicClass = new ClassLayout
@@ -418,7 +430,7 @@
 
             PropertyInfo[] properties = type.GetProperties(BindingFlags.Instance | BindingFlags.Public);
 
-            var a = GetClassPropertyCollection(properties, classLayout, classLayout.Namespace, classDublicates, settings);
+           GetClassPropertyCollection(properties, classLayout, classLayout.Namespace, classDublicates, settings);
 
             var typee = classLayout.CreateType(type);
             var avroResult = _schemaGen.GetAvroPropertyCollection(typee, new List<AvroSchema>(), new AvroSchema(), true);
@@ -454,8 +466,8 @@
             {
                 //var tempClass = GetPropertyCollection(classLayout.GetType(), classLayout, new List<ClassLayout>(), settings);
                 var result = CreateNameSpace(classLayout, classLayout.Type, true);
-                WriteFile(result, classLayout.Type, "cs", classLayout.Namespace, settings.SaveFileDirectory);
-                dublicates.Add(classLayout.Namespace + $".{classLayout.Type}");
+                //WriteFile(result, classLayout.Type, "cs", classLayout?.Namespace, settings.SaveFileDirectory);
+                dublicates.Add(classLayout?.Namespace + $".{classLayout?.Type}");
             }
 
             foreach (var item in classLayout.ClassCollection)

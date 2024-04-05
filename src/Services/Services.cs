@@ -1,9 +1,9 @@
-﻿using AutomatizationVersionUpdate.AvroService.Models;
-using System.Dynamic;
-using System.Reflection;
-
-namespace AutomatizationVersionUpdate.Services
+﻿namespace AutomatizationVersionUpdate.Services
 {
+    using AutomatizationVersionUpdate.AvroService.Models;
+    using System.Dynamic;
+    using System.Reflection;
+
     public abstract class Services
     {
         /// <summary>
@@ -12,44 +12,16 @@ namespace AutomatizationVersionUpdate.Services
         /// <param name="file">given file as string input</param>
         /// <param name="fileName">name of file</param>
         /// <param name="fileExtension">file type as .cs, .json, .avsc and etc. there is always . so input must be just name of extension without . </param>
-        /// <param name="directories">directory separated with . (example: MytestFolder.MyNestedTestFolder.WorkingFolder) this will return nested folders and inside the class</param>
-        public void WriteFile(string file, string fileName, string fileExtension, string directories)
+        /// <param name="directories">directory separated with . (example: MytestFolder\MyNestedTestFolder\WorkingFolder) this will return nested folders and inside the class</param>
+        public void WriteFile(string file, string fileName, string fileExtension, string? directories, string? exactPath = null)
         {
             // Create a new CodeNamespace and add it to the CodeCompileUnit
             //var myType = typeof(GenerateClassDynamically<T>);
 
-            var folders = directories.Split(".", StringSplitOptions.RemoveEmptyEntries).Aggregate((x, y) => System.IO.Path.Combine(x, y));
-
-            if (folders.Contains("Tennis"))
-            {
-
-            }
-            // Write the code to a file
-            var path = FilePathFromNameSpace(fileName + "." + fileExtension, folders);
-
-            //File.WriteAllText($"../../);
-            File.WriteAllText(path, file);
-        }
-
-        /// <summary>
-        /// Save files in specific directory
-        /// </summary>
-        /// <param name="file"></param>
-        /// <param name="fileName"></param>
-        /// <param name="fileExtension"></param>
-        /// <param name="directories"></param>
-        /// <param name="exactPath"></param>
-        public void WriteFile(string file, string fileName, string fileExtension, string directories, string exactPath)
-        {
-            // Create a new CodeNamespace and add it to the CodeCompileUnit
-            //var myType = typeof(GenerateClassDynamically<T>);
-
-            var folders = directories.Split(".", StringSplitOptions.RemoveEmptyEntries).Aggregate((x, y) => System.IO.Path.Combine(x, y));
+            var directory = directories.Split("\\", StringSplitOptions.RemoveEmptyEntries).Aggregate((x, y) => Path.Combine(x, y));
 
             // Write the code to a file
-            var path = FilePathFromNameSpace(fileName + "." + fileExtension, folders, exactPath);
-
-            //File.WriteAllText($"../../);
+            var path = FilePathFromNameSpace(fileName + "." + fileExtension, directory, exactPath);
             File.WriteAllText(path, file);
         }
 
@@ -60,7 +32,7 @@ namespace AutomatizationVersionUpdate.Services
         /// <param name="directory"></param>
         /// <param name="path"></param>
         /// <returns></returns>
-        private string FilePathFromNameSpace(string fileName, string directory, string path)
+        private string FilePathFromNameSpace(string fileName, string directory, string? path)
         {
             // This will get the current WORKING directory (i.e. \bin\Debug)
             string workingDirectory = Environment.CurrentDirectory;
@@ -95,38 +67,6 @@ namespace AutomatizationVersionUpdate.Services
         }
 
         /// <summary>
-        /// FilePath in Working directory
-        /// </summary>
-        /// <param name="fileName"></param>
-        /// <param name="directory"></param>
-        /// <returns></returns>
-        private string FilePathFromNameSpace(string fileName, string directory)
-        {
-            // This will get the current WORKING directory (i.e. \bin\Debug)
-            string workingDirectory = Environment.CurrentDirectory;
-
-            // This will get the current PROJECT bin directory (ie ../bin/)
-            //string projectDirectory = Directory.GetParent(workingDirectory).Parent.FullName;
-
-            // This will get the current PROJECT directory
-            string projectDirectoryy = Directory.GetParent(workingDirectory).Parent.Parent.FullName;
-
-            //var folders = nameSpace.Split(".", StringSplitOptions.RemoveEmptyEntries)
-            //    .Aggregate((x, y) => System.IO.Path.Combine(x, y));
-
-            var path = Path.Combine(projectDirectoryy, directory);
-
-            //var path = Path.Combine(projectDirectoryy, folderName, NestedFolderName);
-
-            if (!Directory.Exists(path))
-            {
-                Directory.CreateDirectory(path);
-            }
-
-            return Path.Combine(path, fileName);
-        }
-
-        /// <summary>
         /// Set AvroSchema class and set schema fields
         /// </summary>
         /// <param name="type"></param>
@@ -136,8 +76,7 @@ namespace AutomatizationVersionUpdate.Services
         /// <returns></returns>
         public AvroSchema GetAvroPropertyCollection(Type type, List<AvroSchema> dublicates, AvroSchema schema, bool ignoreSchemaDefault = false)
         {
-            string typeName = type.Name.TrimEnd(new char[] { '[', ']' });
-            //string propFullName = type.FullName.TrimEnd(new char[] { '[', ']' });           
+            string typeName = type.Name.TrimEnd(new char[] { '[', ']' });         
 
             schema.Type = "record";
             schema.Name = typeName;
@@ -247,7 +186,7 @@ namespace AutomatizationVersionUpdate.Services
                             field.Type = new dynamic[]
                             {
                              "null",
-                             obj
+                              obj
                             };
 
                             field.Default = null;
@@ -324,9 +263,9 @@ namespace AutomatizationVersionUpdate.Services
                     if (prop.PropertyType.IsClass && prop.PropertyType.GetGenericArguments()[0].Name != "String")
                     {
                         //string propTypeFullName = prop.PropertyType.GetGenericArguments()[0].FullName.TrimEnd(new char[] { '[', ']' });
-
                         var propNameSpace = prop.PropertyType.GetGenericArguments()[0].Namespace;
                         var propFullName = prop.PropertyType.GetGenericArguments()[0].FullName;
+
                         var propTypeName = propFullName.Replace(propNameSpace, String.Empty).TrimStart('.').TrimEnd(new char[] { '[', ']' });
 
                         var selected = dublicates.FirstOrDefault(x => x.Name == propTypeName);

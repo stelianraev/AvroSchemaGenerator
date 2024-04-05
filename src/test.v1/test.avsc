@@ -1,0 +1,74 @@
+{
+  "type": "record",
+  "name": "TestClass1",
+  "namespace": null,
+  "fields": [
+    {
+      "name": "IntArray",
+      "type": [
+        "null",
+        {
+          "type": "array",
+          "items": "int"
+        }
+      ],
+      "default": null
+    },
+    {
+      "name": "TestClass2",
+      "type": [
+        "null",
+        {
+          "type": "record",
+          "name": "TestClass2",
+          "namespace": "AutomatizationVersionUpdate",
+          "fields": [
+            {
+              "name": "Name",
+              "type": [
+                "null",
+                "string"
+              ],
+              "default": null
+            },
+            {
+              "name": "TestDictionary",
+              "type": {
+                "type": "map",
+                "values": {
+                  "name": null,
+                  "type": "int",
+                  "default": 0
+                }
+              }
+            },
+            {
+              "name": "TestNestedShit",
+              "type": null
+            }
+          ],
+          "default": null
+        }
+      ]
+    },
+    {
+      "name": "TestClass2List",
+      "type": [
+        "null",
+        {
+          "type": "array",
+          "items": {
+            "name": "TestClass2List",
+            "type": [
+              "null",
+              "TestClass2"
+            ],
+            "default": null
+          }
+        }
+      ],
+      "default": null
+    }
+  ],
+  "default": null
+}

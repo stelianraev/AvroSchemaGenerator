@@ -1,10 +1,6 @@
 ﻿namespace AutomatizationVersionUpdate.AvroService
 {
-    using System.Dynamic;
-    using System.Reflection;
-    using System.Security.AccessControl;
     using AutomatizationVersionUpdate.AvroService.Models;
-    using AutomatizationVersionUpdate.CreateClassService;
     using AutomatizationVersionUpdate.Services;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Linq;

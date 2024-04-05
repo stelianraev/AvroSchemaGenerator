@@ -1,10 +1,7 @@
-﻿using System.ComponentModel;
-using System.Reflection;
-using Avro;
-using Avro.Generic;
-
-namespace AutomatizationVersionUpdate.CreateClassService
+﻿namespace AutomatizationVersionUpdate.CreateClassService
 {
+    using System.Reflection;
+
     public class ClassLayout
     {
         public string? Name { get; set; }
